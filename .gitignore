@@ -5,3 +5,5 @@ promptfoo/out/*
 *.log
 ram_*
 !.github/**/*
+*.egg-info
+*.pyc

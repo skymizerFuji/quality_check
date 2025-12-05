@@ -1,5 +1,9 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "chat-wrap"
+name = "quality_check"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -16,6 +20,11 @@ dependencies = [
     "pandas>=2.0.3",
     "ipython>=8.12.3",
 ]
+[tool.setuptools.packages.find]
+where = ["."]                 # scan in ./src
+include = ["quality_check*"]          # pick these
+exclude = []   # skip these
+
 
 [dependency-groups]
 dev = [
