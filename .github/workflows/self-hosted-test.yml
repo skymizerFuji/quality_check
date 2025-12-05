@@ -31,8 +31,15 @@ jobs:
           # Current time in UTC
           echo "time=$(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_OUTPUT
 
+      - name: Start server in background
+        run: |
+          $HOME/quality_check/.venv/bin/python quality_check/server/openai_server.py &
+          sleep 5 # Give the server a few seconds to start up (adjust as needed)
+
       - name: Publish summary table
-        run:  $HOME/quality_check/.venv/bin/python quality_check/utils/summarize.py >> $GITHUB_STEP_SUMMARY
+        run:  $HOME/quality_check/.venv/bin/python quality_check/server/test.py >> $GITHUB_STEP_SUMMARY
+        # run:  $HOME/quality_check/.venv/bin/python quality_check/utils/summarize.py >> $GITHUB_STEP_SUMMARY
+
       # - name: Publish summary table
       #   run: |
       #     {
