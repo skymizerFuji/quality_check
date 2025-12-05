@@ -1,0 +1,34 @@
+name: Self-hosted runner test
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  self_hosted_check:
+    # Make sure your runner has the 'self-hosted' label (default for self-hosted runners).
+    runs-on: vp1902
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Collect runner info
+        id: info
+        run: |
+          # Hostname of the self-hosted machine
+          echo "hostname=$(hostname)" >> $GITHUB_OUTPUT
+
+          # Current time in UTC
+          echo "time=$(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_OUTPUT
+
+      - name: Publish summary table
+        run: |
+          {
+            echo "## Self-hosted runner test result"
+            echo ""
+            echo "| Hostname | Time |"
+            echo "|----------|------|"
+            echo "| ${{ steps.info.outputs.hostname }} | ${{ steps.info.outputs.time }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
