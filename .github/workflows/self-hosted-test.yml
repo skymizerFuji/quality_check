@@ -2,7 +2,8 @@ name: Self-hosted runner test
 
 on:
   push:
-    tags: # This triggers the workflow on tag creation
+    tags:
+      - '*'        # run on any tag push
   workflow_dispatch:
 
 jobs:
