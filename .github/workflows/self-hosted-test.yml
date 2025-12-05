@@ -2,7 +2,7 @@ name: Self-hosted runner test
 
 on:
   push:
-    branches: [ main ]
+    tags: # This triggers the workflow on tag creation
   workflow_dispatch:
 
 jobs:
