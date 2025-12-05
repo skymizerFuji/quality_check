@@ -32,11 +32,4 @@ jobs:
           echo "time=$(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_OUTPUT
 
       - name: Publish summary table
-        run: |
-          {
-            echo "## Self-hosted runner test result"
-            echo ""
-            echo "| Hostname | Cmd |"
-            echo "|----------|------|"
-            echo "| ${{ steps.info.outputs.hostname }} | ${{ inputs.generate-cli-command }} |"
-          } >> "$GITHUB_STEP_SUMMARY"
+        run:  python3 utils/summarize.py >> $GITHUB_STEP_SUMMARY
