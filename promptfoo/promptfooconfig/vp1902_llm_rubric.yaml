@@ -1,0 +1,40 @@
+# promptfoo eval --no-cache -o out.json -c promptfooconfig.yaml
+# fuji@skymizer-DL02:~/llama.cpp/build/bin$ ./llama-server --temp 0 -ngl 50 -m /home/models/llamacpp/qwen2.5-1.5B-instruct/F32.gguf --port 8080 --n-predict 128 -v
+# promptfoo view -y
+prompts:
+  - |-
+    [
+      { "role": "system", "content": {{ system_prompt | dump }} }
+      {% if messages and messages | length > 0 %},{% endif %}
+      {% for m in messages %}
+      {{ m | dump }}{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+providers:
+  - id: openai:chat:Qwen/Qwen2.5-1.5B-Instruct # openai:chat:<model name> - uses any model name against the /v1/chat/completions endpoint
+    config:
+      apiBaseUrl: http://0.0.0.0:8010/v1
+      temperature: 0.0
+      max_tokens: 256
+
+defaultTest:
+  vars:
+    system_prompt: Answer simple questions within 200 tokens and follow-up questions within 800 tokens.
+  assert:
+    - type: llm-rubric
+      value: |
+        Return 0 if the response is incorrect
+        Return 1 if the response is correct
+      provider: openai:gpt-4.1-mini
+      threshold: 1
+tests:
+  - description: 國學常識
+    vars:
+      messages:
+        - role: user
+          content: 什麼是川句變文?
+  - description: 中國資訊
+    vars:
+      messages:
+        - role: user
+          content: 為什麼成都正成為中國重要的AI發展中心？

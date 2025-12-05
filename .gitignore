@@ -1,0 +1,6 @@
+out.json
+uv.lock
+promptfoo/out/*
+!promptfoo/out/.gitkeep
+*.log
+ram_*

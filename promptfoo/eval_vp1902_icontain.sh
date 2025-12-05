@@ -1,0 +1,1 @@
+promptfoo eval --no-cache -o out/vp1902_icontain.json -c promptfooconfig/vp1902_icontain.yaml

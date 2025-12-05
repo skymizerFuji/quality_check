@@ -1,0 +1,1 @@
+promptfoo eval --no-cache -o out/default.json -c promptfooconfig/default.yaml

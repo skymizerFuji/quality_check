@@ -1,0 +1,10 @@
+stages:
+  - test
+
+hello-world:
+  stage: test
+  tags:
+    - vp1902
+  script:
+    - echo "hello world"
+    - echo "runner hostname $(hostname)"

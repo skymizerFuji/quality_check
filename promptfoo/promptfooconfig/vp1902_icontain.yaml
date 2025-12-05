@@ -1,0 +1,63 @@
+# promptfoo eval --no-cache -o out.json -c promptfooconfig.yaml
+# fuji@skymizer-DL02:~/llama.cpp/build/bin$ ./llama-server --temp 0 -ngl 50 -m /home/models/llamacpp/qwen2.5-1.5B-instruct/F32.gguf --port 8080 --n-predict 128 -v
+# promptfoo view -y
+prompts:
+  - |-
+    [
+      { "role": "system", "content": {{ system_prompt | dump }} }
+      {% if messages and messages | length > 0 %},{% endif %}
+      {% for m in messages %}
+      {{ m | dump }}{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+providers:
+  - id: openai:chat:Qwen/Qwen2.5-1.5B-Instruct # openai:chat:<model name> - uses any model name against the /v1/chat/completions endpoint
+    config:
+      apiBaseUrl: http://0.0.0.0:8010/v1
+      temperature: 0.0
+      max_tokens: 256
+
+defaultTest:
+  vars:
+    system_prompt: Answer simple questions within 200 tokens and follow-up questions within 800 tokens.
+
+tests:
+  # - description: 短篇英翻中
+  #   vars:
+  #     messages:
+  #       - role: user
+  #         content: 把以下文章翻譯成中文\nThe unanimous Declaration of the thirteen united States of America, When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Natures God entitle them,
+  #   assert:
+  #     - type: icontains-any
+  #       value:
+  #         - 法律
+  - description: 多輪對話
+    vars:
+      messages:
+        - role: user
+          content: My name is skymizer
+        - role: assistant
+          content: Hello Skymizer! How can I assist you today?
+        - role: user
+          content: What is my name
+    assert:
+      - type: icontains-any
+        value:
+          - skymizer
+  # - description: 摘要
+  #   vars:
+  #     messages:
+  #       - role: user
+  #         content: |-
+  #           Summarize the following article\nWelcome to English In A Minute.If you've ever gardened, you know weeds grow super fast.They can take over a garden overnight.But what does grow like a weed mean in other situations?
+  #           A: Hey, Dan. Do you want to see pictures from my trip home?  
+  #           D: Oh, geez, I would love to, uh, but…
+  #           A: Great! This is me with my little cousin, Arlo!  
+  #           D: Little? He’s taller than you. 
+  #           A: I know! He is growing like a weed! He’s only 10.  
+  #           D: Does he have a beard?  
+  #           To grow like a weed just means to grow very quickly! We mostly use this expression when talking about how fast children grow.  
+  #   assert:
+  #     - type: icontains-any
+  #       value:
+  #         - weed
