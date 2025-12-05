@@ -32,7 +32,7 @@ jobs:
           echo "time=$(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_OUTPUT
 
       - name: Publish summary table
-        run:  python3 utils/summarize.py >> $GITHUB_STEP_SUMMARY
+        run:  $HOME/quality_check/.venv/bin/python quality_check/utils/summarize.py >> $GITHUB_STEP_SUMMARY
       # - name: Publish summary table
       #   run: |
       #     {
