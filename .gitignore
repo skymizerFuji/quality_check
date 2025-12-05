@@ -4,4 +4,4 @@ promptfoo/out/*
 !promptfoo/out/.gitkeep
 *.log
 ram_*
-!.github/*/*
+!.github/**/*
