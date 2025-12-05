@@ -13,7 +13,7 @@ from tqdm import tqdm
 custom_endpoint_url = "http://localhost:8010"
 client = OpenAI(base_url=custom_endpoint_url)
 completion = client.chat.completions.create(
-    model=model,
+    model="Qwen/Qwen2.5-1.5B-Instruct",
     messages=[
         {"role": "system", "content": "You are a helpful assistant. When answering, unless requested otherwise, give the answer directly without explaining your thought process."},
         {"role": "user", "content": "hello"}
